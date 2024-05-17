@@ -1,6 +1,12 @@
+사용자(USER) 생성하는거는 처음 서버를 만들때 적용했던 계정으로 들어가서 해야지 가능
+처음 만들때 사용자 정보가 ADMIN계정.
+처음 서버 만들때 관리자 계정은 롤(L)SYSDBA로 정해놓고 진행
+
 DROP USER c##md CASCADE;  --  삭제
 CREATE USER c##md IDENTIFIED BY md DEFAULT TABLESPACE users TEMPORARY TABLESPACE temp PROFILE DEFAULT; -- 유저 생성, c## -> 플러그인 방식
 GRANT CONNECT, RESOURCE TO c##md;            --  GRANT : 권한
 GRANT CREATE VIEW, CREATE SYNONYM TO c##md;
 GRANT UNLIMITED TABLESPACE TO c##md;
 ALTER USER c##md ACCOUNT UNLOCK; 
+
+유저 생성 후에는 Name:md 사용자이름:c##md pass:md  롤(L):기본값 으로 접속한다
