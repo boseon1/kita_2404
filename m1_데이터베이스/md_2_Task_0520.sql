@@ -6,6 +6,7 @@ CREATE TABLE cust(
     custid VARCHAR2(50) PRIMARY KEY ,
     name VARCHAR2(20),
     brdt DATE ,
+    height
     gender CHAR(1),
     m_carrier VARCHAR2(10),
     p_num NUMBER(11),
@@ -14,6 +15,8 @@ CREATE TABLE cust(
     rdate DATE 
 )
 ;
+
+
 
 
 
@@ -57,12 +60,13 @@ ORDER BY
 
 --Task5_0520. 마당서점은 주문일로부터 10일 후 매출을 확정한다. 각 주문의 확정일자를 구하시오.
 SELECT
-    ORDERDATE
+    orderid
+    ,ORDERDATE
     ,orderdate +10 AS 확정일자
 FROM
     ORDERS
 ORDER BY
-    ORDERDATE
+    orderid
 ;
 
 --Task6_0520.마당서점이 2020년 7월 7일에 주문받은 도서의 주문번호, 주문일, 고객번호, 도서번호를 모두 보이시오. 
