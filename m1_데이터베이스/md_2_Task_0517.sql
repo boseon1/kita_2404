@@ -8,6 +8,21 @@ WHERE PUBLISHER IN ('굿스포츠','대한미디어');
 SELECT * FROM BOOK
 WHERE PUBLISHER LIKE '굿스포츠' OR PUBLISHER LIKE '대한미디어';
 
+SELECT 
+    *
+FROM
+    book
+WHERE
+    publisher = '굿스포츠'
+UNION
+SELECT 
+    *
+FROM
+    book
+WHERE
+    publisher = '대한미디어'
+;
+
 -- Task2_0517. 출판사가 '굿스포츠' 혹은 '대한미디어'가 아닌 도서를 검색
 SELECT * FROM BOOK
 WHERE PUBLISHER != '굿스포츠' AND PUBLISHER != '대한미디어';
@@ -32,6 +47,7 @@ WHERE
 2	김연아	대한민국 서울	000-6000-0001;
 SELECT 
     A.NAME
+    ,B.custid
     , SUM(B.saleprice) AS "총 판매액"
 FROM 
     CUSTOMER A
@@ -41,13 +57,14 @@ WHERE
     AND A.CUSTID = 2
 GROUP BY
     A.NAME
+    ,b.custid
 ;
 
 --Task5_0517. 가격이 8,000원 이상인 도서를 구매한 고객에 대하여 고객별 주문 도서의 총 수량을 구하시오. 
 --단, 두 권 이상 구매한 고객만 구하시오.
 SELECT 
     B.CUSTID
-    ,COUNT(*)
+    ,COUNT(B.BOOKID) "총 수량"
 FROM
     BOOK A
     , ORDERS B
@@ -57,53 +74,20 @@ WHERE
 GROUP BY
     B.CUSTID
 HAVING
-    COUNT(*) >= 2
-    
-;
-
-SELECT 
-    B.CUSTID
-    ,A.PRICE
-FROM
-    BOOK A
-    , ORDERS B
-WHERE
-    A.BOOKID = B.BOOKID
-    AND A.PRICE >= 8000
+    COUNT(B.BOOKID) >= 2
 ORDER BY
-    B.CUSTID
+    B.CUSTID    
 ;
 
+-- 강사님 풀이
 SELECT
-    B.NAME
-    ,A.BOOKNAME
-    ,A.PRICE
-FROM
-    BOOK A
-    ,CUSTOMER B
-    , ORDERS C
-WHERE
-    A.BOOKID = C.BOOKID
-    AND B.CUSTID = C.CUSTID
-    AND A.PRICE >= 8000
-ORDER BY
-    B.NAME
+    custid
+    , COUNT(*) AS "도서수량"
+FROM orders
+WHERE saleprice >= 8000
+GROUP BY custid
+HAVING COUNT(*) >= 2
 ;
-
-SELECT 
-    A.BOOKNAME
-    ,A.PRICE
-    ,B.SALEPRICE
-    ,B.CUSTID
-FROM
-    BOOK A
-    ,ORDERS B
-WHERE
-    A.BOOKID = B.BOOKID
-ORDER BY
-    A.BOOKNAME
-;
-    
 
 --Task6_0517. 고객의 이름과 고객이 주문한 도서의 판매가격을 검색하시오.
 SELECT
@@ -132,6 +116,8 @@ GROUP BY
 ORDER BY
     A.NAME
 ;
+
+    
 
 
 
