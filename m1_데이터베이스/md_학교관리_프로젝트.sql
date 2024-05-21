@@ -4,30 +4,56 @@
 
 DROP TABLE TEACHERS cascade constraints purge;
 
+-- 교사 정보를 저장하는 테이블
 CREATE TABLE TEACHERS(
-    NAME VARCHAR2(20), -- 이름
-    BIRTH DATE, -- 생일
-    AGE NUMBER, -- 나이
-    SX VARCHAR2(10),    --  성별
-    PHONE VARCHAR2(15), --  핸드폰번호
-    ADDRESS VARCHAR2(50), -- 주소
-    SUBJECT VARCHAR2(10), -- 담당 과목
-    CLASS_ASSIGNED VARCHAR2(15), -- 담당 반
-    PRIMARY KEY (CLASS_ASSIGNED)
+    NAME VARCHAR2(20),        -- 교사 이름
+    BIRTH DATE,               -- 교사 생일
+    AGE NUMBER,               -- 교사 나이
+    SX VARCHAR2(10),          -- 교사 성별
+    PHONE VARCHAR2(15),       -- 교사 핸드폰번호
+    ADDRESS VARCHAR2(50),     -- 교사 주소
+    SUBJECT VARCHAR2(10),     -- 담당 과목
+    CLASS_ASSIGNED VARCHAR2(15), -- 담당 반 (Primary Key)
+    PRIMARY KEY (CLASS_ASSIGNED) -- 각 교사는 하나의 반을 담당
 );
 
+-- 학생 정보를 저장하는 테이블
 CREATE TABLE STUDENTS(
-    NAME VARCHAR2(20), -- 학생명
-    STDID NUMBER(10), -- 학생 번호
-    BIRTH DATE, -- 학생 생리
-    AGE NUMBER, -- 나이
-    SX VARCHAR2(10), -- 성별
-    PHONE VARCHAR2(15), -- 핸드폰 번호
-    ADDRESS VARCHAR2(50), -- 주소
-    FAV_JUBJECT VARCHAR2(10), -- 과목
-    CLASS   VARCHAR2(15), -- 반
+    NAME VARCHAR2(20),        -- 학생 이름
+    STDID NUMBER(10) PRIMARY KEY , -- 학생 번호 (Primary Key)
+    BIRTH DATE,               -- 학생 생일
+    AGE NUMBER,               -- 학생 나이
+    SX VARCHAR2(10),          -- 학생 성별
+    PHONE VARCHAR2(15),       -- 학생 핸드폰 번호
+    ADDRESS VARCHAR2(50),     -- 학생 주소
+    FAV_JUBJECT VARCHAR2(10), -- 좋아하는 과목
+    CLASS VARCHAR2(15),       -- 반 (Foreign Key 참조: TEACHERS.CLASS_ASSIGNED)
     FOREIGN KEY (CLASS) REFERENCES TEACHERS(CLASS_ASSIGNED) ON DELETE CASCADE
+    -- CLASS는 TEACHERS 테이블의 CLASS_ASSIGNED를 참조하며, 관련 교사가 삭제될 때 해당 반의 학생들도 함께 삭제
 );
+
+-- 재배치된 사람 정보를 저장하는 테이블
+CREATE TABLE RELOCATEE(
+    NAME VARCHAR2(20),        -- 이름
+    RELO_DATE DATE            -- 재배치 날짜
+);
+
+-- 학생의 성적 정보를 저장하는 테이블
+CREATE TABLE SCOREBOARD(
+    NAME VARCHAR2(20),        -- 학생 이름
+    STDID NUMBER(10),         -- 학생 번호 (Primary Key)
+    MATH1 NUMBER(10),         -- 수학1 점수
+    MATH2 NUMBER(10),         -- 수학2 점수
+    MATH3 NUMBER(10),         -- 수학3 점수
+    SCORE_MATH VARCHAR2(10),  -- 수학 총점
+    PHYS1 NUMBER(10),         -- 물리1 점수
+    PHYS2 NUMBER(10),         -- 물리2 점수
+    PHYS3 NUMBER(10),         -- 물리3 점수
+    SCORE_PHYS VARCHAR2(10),  -- 물리 총점
+    ABSENCE NUMBER(10),       -- 결석 횟수
+    FLUNK VARCHAR2(10)        -- 낙제 여부
+);
+
 
 INSERT INTO TEACHERS VALUES ('김영희', '1993-02-03', 29, '여', '010-1234-5678', '서울 강남', '영어', '2학년 3반');
 INSERT INTO TEACHERS VALUES ('이철수', '1987-12-15', 34, '남', '010-9876-5432', '부산 해운대', '과학', '1학년 2반');
@@ -252,3 +278,5 @@ DELETE FROM teachers WHERE name = '김철호';
 rollback;
 
 select * from students where class like '1%' order by class;
+
+-- SCOREBOARD 테이블 teachers 테이블 조인해서 평균점수가 가장 높은 반 구하기
