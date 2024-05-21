@@ -306,23 +306,172 @@ FROM customer
 WHERE custid IN (SELECT custid FROM orders);
 
 
+-- 절대값
+SELECT ABS(-78) , ABS(+78)
+FROM dual;
+
+-- 반올림
+SELECT ROUND(4.875,1)
+FROM dual;
+
+-- Q. 고객별 평균 주문 금액을 백원단위로 반올림 한 값을 구하시오.
+SELECT * FROM ORDERS;
+
+SELECT 
+custid 고객번호, ROUND(AVG(saleprice),-2) 평균주문금액,AVG(saleprice)
+FROM orders 
+GROUP BY custid;
+
+
+-- Q. '굿스포츠'에서 출판한 도서의 제목과 제목의 글자 수, 바이트 수를 보이시오.
+SELECT bookname , length(bookname) 글자수
+, lengthb(bookname) 바이트수
+from book
+where publisher = '굿스포츠'
+;
+
+
+--  [실습 - 2인 1조]
+-- 학교 관리를 위하여 테이블 3개 이상으로 db를 구축하고 3개 이상 활용할 수 있는 case를 만드세요.
+-- 출결관리, 학적관리 , 성적관리 ...
+-- 
+drop table student;
+drop table school;
+
+create table school (
+    stNum number primary key -- 학번
+    ,grade NUMBER -- 학년
+    , class NUMBER -- 반
+    , score NUMBER -- 점수
+    , enter DATE NOT NULL -- 입학일
+    , graduate DATE -- 졸업일
+)
+;
+create table student (
+    stNum NUMBER -- 학번
+    ,birth date -- 생일
+    ,name VARCHAR2(50) -- 이름
+    ,sx char -- 성별 M,F
+    ,address VARCHAR2(100) -- 주소
+    ,phone varchar2(20) -- 전화번호
+    , foreign key (stNum) references school(stNum) on delete cascade
+)
+;
+
+CREATE TABLE teacher (
+    teacherID NUMBER PRIMARY KEY -- 교사 ID
+    ,tname VARCHAR2(50) -- 이름
+    ,subject VARCHAR2(50) -- 과목
+    ,class NUMBER
+    ,stNum NUMBER -- 학번 (외래키)
+    ,FOREIGN KEY (stNum) REFERENCES school(stNum) ON DELETE CASCADE
+    ,FOREIGN KEY (class) REFERENCES school(class) ON DELETE CASCADE
+);
+-- Inserts for 2018 admission
+INSERT INTO school VALUES (1, 3, 5, 90, TO_DATE('2018-03-02', 'YYYY-MM-DD'), TO_DATE('2024-02-24', 'YYYY-MM-DD'));
+INSERT INTO school VALUES (4, 2, 1, 87, TO_DATE('2018-03-02', 'YYYY-MM-DD'), NULL);
+INSERT INTO school VALUES (5, 1, 4, 82, TO_DATE('2018-03-02', 'YYYY-MM-DD'), TO_DATE('2024-02-24', 'YYYY-MM-DD'));
+INSERT INTO school VALUES (6, 4, 3, 91, TO_DATE('2018-03-02', 'YYYY-MM-DD'), NULL);
+INSERT INTO school VALUES (7, 3, 2, 88, TO_DATE('2018-03-02', 'YYYY-MM-DD'), TO_DATE('2024-02-24', 'YYYY-MM-DD'));
+
+
+-- Inserts for 2020 admission
+INSERT INTO school VALUES (2, 2, 3, 85, TO_DATE('2020-03-02', 'YYYY-MM-DD'),null);
+INSERT INTO school VALUES (9, 1, 2, 83, TO_DATE('2020-03-02', 'YYYY-MM-DD'), TO_DATE('2026-02-24', 'YYYY-MM-DD'));
+INSERT INTO school VALUES (10, 3, 1, 89, TO_DATE('2020-03-02', 'YYYY-MM-DD'),null);
+INSERT INTO school VALUES (11, 4, 4, 92, TO_DATE('2020-03-02', 'YYYY-MM-DD'), TO_DATE('2026-02-24', 'YYYY-MM-DD'));
+INSERT INTO school VALUES (12, 2, 5, 76, TO_DATE('2020-03-02', 'YYYY-MM-DD'),null);
+
+
+-- Inserts for 2016 admission
+INSERT INTO school VALUES (3, 1, 1, 78, TO_DATE('2016-03-02', 'YYYY-MM-DD'), TO_DATE('2022-02-24', 'YYYY-MM-DD'));
+INSERT INTO school VALUES (14, 2, 2, 80, TO_DATE('2016-03-02', 'YYYY-MM-DD'), NULL);
+INSERT INTO school VALUES (15, 3, 4, 85, TO_DATE('2016-03-02', 'YYYY-MM-DD'), TO_DATE('2022-02-24', 'YYYY-MM-DD'));
+INSERT INTO school VALUES (13, 4, 1, 90, TO_DATE('2016-03-02', 'YYYY-MM-DD'), NULL);
+INSERT INTO school VALUES (8, 1, 5, 77, TO_DATE('2016-03-02', 'YYYY-MM-DD'), TO_DATE('2022-02-24', 'YYYY-MM-DD'));
+
+-- Inserts for students born in 2010
+INSERT INTO student VALUES (1, TO_DATE('2010-05-05', 'YYYY-MM-DD'), '홍길동', 'M', '대한민국 서울', '01012345678');
+INSERT INTO student VALUES (4, TO_DATE('2010-02-15', 'YYYY-MM-DD'), '박지성', 'M', '대한민국 대전', '01056789012');
+INSERT INTO student VALUES (5, TO_DATE('2010-08-21', 'YYYY-MM-DD'), '최미나', 'F', '대한민국 광주', '01067890123');
+INSERT INTO student VALUES (6, TO_DATE('2010-11-30', 'YYYY-MM-DD'), '김철수', 'M', '대한민국 부산', '01078901234');
+INSERT INTO student VALUES (7, TO_DATE('2010-03-10', 'YYYY-MM-DD'), '이영희', 'F', '대한민국 대구', '01089012345');
+
+-- Inserts for students born in 2012
+INSERT INTO student VALUES (2, TO_DATE('2012-06-12', 'YYYY-MM-DD'), '김영희', 'F', '대한민국 부산', '01023456789');
+INSERT INTO student VALUES (8, TO_DATE('2012-01-22', 'YYYY-MM-DD'), '정수빈', 'F', '대한민국 인천', '01090123456');
+INSERT INTO student VALUES (9, TO_DATE('2012-09-05', 'YYYY-MM-DD'), '최한별', 'M', '대한민국 서울', '01001234567');
+INSERT INTO student VALUES (10, TO_DATE('2012-11-18', 'YYYY-MM-DD'), '한지민', 'F', '대한민국 경기', '01012345679');
+INSERT INTO student VALUES (11, TO_DATE('2012-03-23', 'YYYY-MM-DD'), '오세훈', 'M', '대한민국 강원', '01023456780');
+
+-- Inserts for students born in 1998
+INSERT INTO student VALUES (3, TO_DATE('1998-07-23', 'YYYY-MM-DD'), '이철수', 'M', '대한민국 인천', '01034567890');
+INSERT INTO student VALUES (12, TO_DATE('1998-02-11', 'YYYY-MM-DD'), '박민수', 'M', '대한민국 대구', '01045678901');
+INSERT INTO student VALUES (13, TO_DATE('1998-05-29', 'YYYY-MM-DD'), '유지수', 'F', '대한민국 서울', '01056789012');
+INSERT INTO student VALUES (14, TO_DATE('1998-10-15', 'YYYY-MM-DD'), '최영준', 'M', '대한민국 부산', '01067890123');
+INSERT INTO student VALUES (15, TO_DATE('1998-12-20', 'YYYY-MM-DD'), '윤아름', 'F', '대한민국 경기', '01078901234');
+
+commit;
+
+select * from school order by stnum;
+select * from student order by stnum;
+
+
+-- 입학일이 2016~2018사이의 점수가 평균보다 높은 학생의 이름,주소,점수,입학일
+SELECT 
+    b.name ,b.address ,a.score ,a.enter
+FROM
+    SCHOOL A
+    ,student B
+WHERE
+    a.stnum = b.stnum
+    and enter between TO_DATE('2016','YYYY') and TO_DATE('2018','YYYY')
+    and score > (select avg(score) from school)
+;
+
+-- 집이 대구인 학생 전학
+delete from school
+where
+    stnum = (select stnum from student where address like '%대구%')
+;
+
+commit;
 
 
 
+-- 국어 교사
+INSERT INTO teacher (teacherID, tname, subject, class, stNum) VALUES (1, '김영희', '국어', 1, 1);
+
+-- 수학 교사
+INSERT INTO teacher (teacherID, tname, subject, class, stNum) VALUES (2, '이철수', '수학', 2, 2);
+
+-- 과학 교사
+INSERT INTO teacher (teacherID, tname, subject, class, stNum) VALUES (3, '박민지', '과학', 3, 3);
+
+-- 영어 교사
+INSERT INTO teacher (teacherID, tname, subject, class, stNum) VALUES (4, 'John Smith', '영어', 4, 4);
+
+-- 중국어 교사
+INSERT INTO teacher (teacherID, tname, subject, class, stNum) VALUES (5, '王?', '중국어', 5, 5);
 
 
 
+-- Q. DBMS 서버에 설정된 현재 날짜와 시간, 요일을 확인하시오.
+SELECT 
+    SYSDATE, TO_CHAR(SYSDATE, 'YYYY-mm-dd HH:MI:SS day') SYSDATE1
+FROM DUAL;
 
 
+-- Q. 이름, 전화번호가 포함된 곡객목록을 보이시오. 단, 전화번호가 없는 고객은 '연락처없음'으로 표시하시오
+-- NVL 함수는 값이 NULL인 경우 지정값을 출력하고, NULL이 아니면 원래 값을 그대로 출력한다. 함수 : NVL("값","지정값")
+SELECT name 이름, NVL(phone,'연락처없음') 전화번호
+FROM customer;
 
 
-
-
-
-
-
-
-
-
+-- Q. 고객목록에서 고객번호, 이름, 전화번홀르 앞의 두명만 보이시오.
+-- ROWNUM : 오라클에서 자동으로 제공하는 가상 열로 쿼리가 진행되는 동안 각 행에 일련번호를 자동으로 할당.
+SELECT rownum 순번, custid 고객번호, name 이름, phone 전화번호
+FROM customer
+WHERE rownum < 3;
 
 
