@@ -20,4 +20,10 @@ conda install jupyter notebook
 4. 패키지 설치
 conda install numpypandas matplotlib seaborn scipyscikit-learn
 
-5. exit
+5. 가상환경 종료
+conda deactivate
+
+6. 나가기
+exit
+
+시작 메뉴에 생성되어있는 jupyter notebook(kita)로 실행
