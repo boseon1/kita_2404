@@ -27,3 +27,14 @@ conda deactivate
 exit
 
 시작 메뉴에 생성되어있는 jupyter notebook(kita)로 실행
+
+환경변수 설정
+Path
+C:\Users\Administrator\anaconda3
+C:\Users\Administrator\anaconda3\Library\bin
+C:\Users\Administrator\anaconda3\Library\mingw-w64\bin
+C:\Users\Administrator\anaconda3\Scripts
+
+--- 주피터 노트북 ---
+파이썬 버전 확인 명령어
+!python --version
