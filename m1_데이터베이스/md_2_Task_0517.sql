@@ -11,7 +11,7 @@ WHERE PUBLISHER LIKE '±Â½ºÆ÷Ã÷' OR PUBLISHER LIKE '´ëÇÑ¹Ìµð¾î';
 SELECT 
     *
 FROM
-    book
+    book 
 WHERE
     publisher = '±Â½ºÆ÷Ã÷'
 UNION

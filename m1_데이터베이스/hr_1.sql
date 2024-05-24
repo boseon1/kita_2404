@@ -161,7 +161,7 @@ FROM
 
 -- months_between() 날짜와 날짜 사이의 개월수를 구한다.(개월 수를 소수점 첫째자리까지)
 SELECT 
-    hire_date, round(months_been(sysdate,hire_date),1) FROM employees;
+    hire_date, round(months_between(sysdate,hire_date),1) FROM employees;
 
 -- 형 변환 함수 : to_date()
 -- '2023-01-01'이라는 문자열을 날짜 타입으로 변환
