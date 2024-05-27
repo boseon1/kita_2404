@@ -1,0 +1,4 @@
+오라클 설치
+-q : 조용히 설치
+!pip install cx_Oracle -q
+
