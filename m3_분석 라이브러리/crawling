@@ -1,0 +1,15 @@
+비주얼 스튜디오 설치
+
+python
+jupyter
+live server 
+설치
+
+python 3.10.11 설치
+환경변수 설정
+C:\Users\Administrator\AppData\Local\Programs\Python\Python310\Scripts
+C:\Users\Administrator\AppData\Local\Programs\Python\Python310
+
+가상환경 설치
+
+ipynb 파일 만들고 연결
