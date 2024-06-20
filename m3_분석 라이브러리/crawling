@@ -32,4 +32,7 @@ C:\Users\Administrator\AppData\Local\Programs\Python\Python310\python.exe -m ven
 이렇게 실행하면 내가 받은 파이썬 버전으로 가상환경 생성이 된다.
 
 
+사이트에 접속해서 정보를 가져올때 headers를 보내주지 않으면 해당 사이트에서 접근을 막을수 있다
+간단하게 접속하는거면 괜찮지만 대량의 데이터를 받을 때는 header를 보내줘야 한다
+
 
